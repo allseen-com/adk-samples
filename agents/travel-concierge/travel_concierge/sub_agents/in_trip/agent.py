@@ -19,21 +19,22 @@ from google.adk.tools.agent_tool import AgentTool
 
 from travel_concierge.sub_agents.in_trip import prompt
 from travel_concierge.sub_agents.in_trip.tools import (
-    transit_coordination,
-    flight_status_check,
-    event_booking_check,
-    weather_impact_check,
+    transit_coordination_tool,
+    flight_status_check_tool,
+    event_booking_check_tool,
+    weather_impact_check_tool,
 )
 
 from travel_concierge.tools.memory import memorize
 
 
 # This sub-agent is expected to be called every day closer to the trip, and frequently several times a day during the trip.
+# Now transit_coordination_tool will be a tool available to this agent.
 day_of_agent = Agent(
     model="gemini-2.0-flash",
     name="day_of_agent",
     description="Day_of agent is the agent handling the travel logistics of a trip.",
-    instruction=transit_coordination,
+    tools=[transit_coordination_tool],
 )
 
 
@@ -42,7 +43,7 @@ trip_monitor_agent = Agent(
     name="trip_monitor_agent",
     description="Monitor aspects of a itinerary and bring attention to items that necessitate changes",
     instruction=prompt.TRIP_MONITOR_INSTR,
-    tools=[flight_status_check, event_booking_check, weather_impact_check],
+    tools=[flight_status_check_tool, event_booking_check_tool, weather_impact_check_tool],
     output_key="daily_checks",  # can be sent via email.
 )
 
