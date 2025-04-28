@@ -16,6 +16,7 @@
 
 import os
 from typing import Dict, List, Any
+from datetime import datetime
 
 from google.adk.tools import ToolContext
 import requests
@@ -85,6 +86,11 @@ class PlacesService:
     def get_map_url(self, place_id: str) -> str:
         """Generates the Google Maps URL for a given place ID."""
         return f"https://www.google.com/maps/place/?q=place_id:{place_id}"
+
+    def get_time(self) -> str:
+        """Gets the current time."""
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        return current_time
 
 
 # Google Places API
