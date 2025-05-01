@@ -25,7 +25,7 @@ from travel_concierge.sub_agents.in_trip.tools import (
     weather_impact_check_tool,
 )
 
-from travel_concierge.tools.memory import memorize
+from travel_concierge.tools.memory import memorize_tool, get_user_preferences_tool
 
 
 # This sub-agent is expected to be called every day closer to the trip, and frequently several times a day during the trip.
@@ -58,6 +58,7 @@ in_trip_agent = Agent(
     ],  # This can be run as an AgentTool. Illustrate as an Agent for demo purpose.
     tools=[
         AgentTool(agent=day_of_agent), 
-        memorize
+        memorize_tool,
+        get_user_preferences_tool
     ],
 )

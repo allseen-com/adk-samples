@@ -15,46 +15,22 @@
 """Booking agent and sub-agents, handling the confirmation and payment of bookable events."""
 
 from google.adk.agents import Agent
-from google.adk.tools.agent_tool import AgentTool
-from google.genai.types import GenerateContentConfig
-
-from travel_concierge.sub_agents.booking import prompt
-
-
-create_reservation = Agent(
-    model="gemini-2.0-flash-001",
-    name="create_reservation",
-    description="""Create a reservation for the selected item.""",
-    instruction=prompt.CONFIRM_RESERVATION_INSTR,
+from travel_concierge.sub_agents.booking.confirm_reservation.agent import (
+    confirm_reservation_agent,
+)
+from travel_concierge.sub_agents.booking.payment.agent import payment_agent
+from travel_concierge.sub_agents.booking.payment_choice.agent import (
+    payment_choice_agent,
 )
 
-
-payment_choice = Agent(
-    model="gemini-2.0-flash-001",
-    name="payment_choice",
-    description="""Show the users available payment choices.""",
-    instruction=prompt.PAYMENT_CHOICE_INSTR,
-)
-
-process_payment = Agent(
-    model="gemini-2.0-flash-001",
-    name="process_payment",
-    description="""Given a selected payment choice, processes the payment, completing the transaction.""",
-    instruction=prompt.PROCESS_PAYMENT_INSTR,
-)
 
 
 booking_agent = Agent(
-    model="gemini-2.0-flash-001",
+    model="gemini-2.0-flash",
     name="booking_agent",
-    description="Given an itinerary, complete the bookings of items by handling payment choices and processing.",
-    instruction=prompt.BOOKING_AGENT_INSTR,
-    tools=[
-        AgentTool(agent=create_reservation),
-        AgentTool(agent=payment_choice),
-        AgentTool(agent=process_payment),
+    description="Agent responsible for managing the booking process.",    sub_agents=[
+        confirm_reservation_agent,
+        payment_choice_agent,
+        payment_agent,
     ],
-    generate_content_config=GenerateContentConfig(
-        temperature=0.0, top_p=0.5
-    )
 )

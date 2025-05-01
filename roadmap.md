@@ -105,12 +105,24 @@ The TripWays Travel Concierge application will utilize a multi-agent architectur
 
 ### Phase 2: TripWays API Integration (Estimated: 2 weeks)
 
-1.  **Authenticate with TripWays WordPress REST API**:
-    *   Implement authentication mechanism (e.g., API key, OAuth).
-    *   Store API credentials securely.
-2.  **Retrieve Tour Packages and Destination Data**:
-    *   Implement API calls to fetch tours and destinations.
-    *   Handle pagination if necessary.
+1.  **TripWays API Authentication:**
+    *   Locate where the `TRIPWAYS_API_KEY` is going to be used in the code.
+    *   Implement the authentication logic for the TripWays WordPress REST API, using the `TRIPWAYS_API_KEY` environment variable.
+2.  **Create tools or modules to access the API**:
+    *   Create the modules to connect to the API.
+    *   Create tools to fetch tours and destinations from the API.
+    *   Create the tools to parse the responses and handle errors.
+3.  **Update the agents:**
+    *   Update the `place_agent` to use the new tools.
+    *   Update the `root_agent` to use the `place_agent`.
+4.  **Authenticate with TripWays WordPress REST API**:
+        *   Implement authentication mechanism (e.g., API key, OAuth).
+        *   Store API credentials securely.
+5.  **Retrieve Tour Packages and Destination Data**:
+        *   Implement API calls to fetch tours and destinations.
+        *   Handle pagination if necessary.
+
+
 3.  **Handle API Responses and Errors**:
     *   Implement error handling for API requests.
     *   Parse and validate API responses.
@@ -136,13 +148,13 @@ The TripWays Travel Concierge application will utilize a multi-agent architectur
 
 ### Phase 4: Core Logic (Estimated: 4 weeks)
 
-1.  **Develop Personalized Itinerary Planning Algorithms**:
+1.  **[Done] Develop Personalized Itinerary Planning Algorithms**:
     *   Create algorithms for suggesting itineraries based on user preferences.
     *   Consider factors like budget, interests, travel style, and duration.
 2.  **Implement Booking Process Integration**:
     *   Design and implement the booking process for tour packages.
     *   Consider integration with payment gateways (future enhancement).
-3.  **Build Data Storage for User Profiles and Preferences**:
+3.  **[Done] Build Data Storage for User Profiles and Preferences**:
     *   Design a database schema for storing user data.
     *   Implement data persistence for user profiles and preferences.
 
@@ -202,6 +214,11 @@ The TripWays Travel Concierge application will utilize a multi-agent architectur
 *   **Team Collaboration and Communication**:
     *   Use collaboration tools for communication and task management.
     *   Hold regular team meetings to discuss progress and challenges.
+*   **Nix Environment Configuration**:
+    *   Corrected `dev.nix` to utilize `pkgs.mkShell` properly, avoiding infinite recursion. Removed unnecessary pkgs argument to `dev.nix` and created correct `default.nix` to avoid errors during environment creation. This change ensure the usage of the correct nix packages, proper caching and a clean creation of the environment.
+
+
+
 
 ## Progress Tracking
 
@@ -217,3 +234,25 @@ The TripWays Travel Concierge application will utilize a multi-agent architectur
 *   Working TripWays Travel Concierge application.
 *   Comprehensive documentation.
 *   Test suite and coverage reports.
+
+## Progress so far
+
+### Phase 4: Core Logic
+    *   **[Done]** 1.  **Develop Personalized Itinerary Planning Algorithms**:
+        *   **[Done]** Create algorithms for suggesting itineraries based on user preferences.
+        *   **[Done]** Create the `planning_agent` and the `itinerary_agent`.
+    *   **[Done]** 3. **Build Data Storage for User Profiles and Preferences**:
+        * **[Done]** Design a database schema for storing user data.
+        * **[Done]** Implement data persistence for user profiles and preferences.
+### Other tasks:
+    * **[Done]** Create the `search_tool`.
+    * **[Done]** Create the `place_agent`.
+    * **[Done]** Create the `poi_agent`.
+    * **[Done]** Update the `inspiration_agent` to use those agents.
+    * **[Done]** Create the `root_agent` to use the `inspiration_agent` and `planning_agent`.
+    * **[Done]** Create the `memory` module in `memory.py`.
+    * **[Done]** Update the `in_trip_agent` to use the `memory_tool` and `get_user_preferences_tool`.
+
+
+
+
